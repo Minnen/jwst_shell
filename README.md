@@ -4,9 +4,6 @@
 
 # Instalacion
 
-## Opcion 1
-> Modificacion manual del registro
-
 1. Mover el archivo `jwst.bat` a la carpeta `C:\Windows`.
 2. Presionar las teclas `win+r` y ejecutar el comando `regedit`.
 3. En el editor de registro navegar hasta `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`.
