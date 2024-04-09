@@ -39,30 +39,28 @@ ECHO %TIME% - %DATE%
 ECHO.
 ECHO Q - Iniciar powershell
 ECHO W - Copiar informacion del sistema
-ECHO E - Ubicacion del archivo
-ECHO R - Perifericos
+ECHO E - Perifericos
+ECHO R - Gestion de tareas
 ECHO.
-ECHO A - Gestion de tareas
-ECHO S - Propiedades del sistema
-ECHO D - Cambiar shell del sistema
-ECHO F - Estado de las redes
+ECHO A - Propiedades del sistema
+ECHO S - Cambiar shell del sistema
+ECHO D - Estado de las redes
+ECHO F - Nivel de bateria
 ECHO.
-ECHO Z - Nivel de bateria
-ECHO X - Herramientas de Diagnostico y Reparacion
+ECHO Z - Herramientas de Diagnostico y Reparacion
 ECHO.
 ECHO B - Volver
 ECHO.
 
-CHOICE /N /C:QWERASDFZXB /M "->"
-IF ERRORLEVEL 11 GOTO menu
-IF ERRORLEVEL 10 GOTO repair_menu
-IF ERRORLEVEL 9 GOTO batteryrem
-IF ERRORLEVEL 8 GOTO networkstatus
-IF ERRORLEVEL 7 GOTO shellc
-IF ERRORLEVEL 6 GOTO systempropertiesadvanced
-IF ERRORLEVEL 5 GOTO tslist
-IF ERRORLEVEL 4 GOTO peripheral
-IF ERRORLEVEL 3 GOTO filedir
+CHOICE /N /C:QWERASDFZB /M "->"
+IF ERRORLEVEL 10 GOTO menu
+IF ERRORLEVEL 9 GOTO repair_menu
+IF ERRORLEVEL 8 GOTO batteryrem
+IF ERRORLEVEL 7 GOTO networkstatus
+IF ERRORLEVEL 6 GOTO shellc
+IF ERRORLEVEL 5 GOTO systempropertiesadvanced
+IF ERRORLEVEL 4 GOTO tslist
+IF ERRORLEVEL 3 GOTO peripheral
 IF ERRORLEVEL 2 GOTO sysinfo
 IF ERRORLEVEL 1 GOTO powershell
 
@@ -90,10 +88,6 @@ CHOICE /M "Desea copiar el directorio a una unidad extraible? "
 IF ERRORLEVEL 2 GOTO menu
 IF ERRORLEVEL 1 SET /p id="Letra de volumen: "
 Xcopy /E /I C:\Users\%USERNAME%\Downloads\%COMPUTERNAME% %id%:\%COMPUTERNAME%
-GOTO menu
-
-:filedir
-START "" "%CD%"
 GOTO menu
 
 :peripheral
