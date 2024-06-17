@@ -71,8 +71,8 @@ GOTO menu
 :sysinfo
 mkdir C:\Users\%USERNAME%\Downloads\%COMPUTERNAME%
 wmic baseboard list /format:list > C:\Users\%USERNAME%\Downloads\%COMPUTERNAME%\baseboard.txt
-wmic computersystem list  /format:list > C:\Users\%USERNAME%\Downloads\%COMPUTERNAME%\computersystem.txt
-wmic useraccount list  /format:list > C:\Users\%USERNAME%\Downloads\%COMPUTERNAME%\useraccount.txt
+wmic computersystem list /format:list > C:\Users\%USERNAME%\Downloads\%COMPUTERNAME%\computersystem.txt
+wmic useraccount list /format:list > C:\Users\%USERNAME%\Downloads\%COMPUTERNAME%\useraccount.txt
 wmic cpu list full /format:list > C:\Users\%USERNAME%\Downloads\%COMPUTERNAME%\cpu.txt
 wmic bios list /format:list > C:\Users\%USERNAME%\Downloads\%COMPUTERNAME%\bios.txt
 wmic diskdrive list /format:list > C:\Users\%USERNAME%\Downloads\%COMPUTERNAME%\diskdrive.txt
