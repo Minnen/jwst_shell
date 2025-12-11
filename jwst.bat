@@ -20,7 +20,6 @@ ECHO 8 - Bloquear
 ECHO 9 - Reiniciar
 ECHO 0 - Apagar
 ECHO.
-
 CHOICE /N /C:1QWERAS890 /M "->"
 IF ERRORLEVEL 10 GOTO apagar
 IF ERRORLEVEL 9 GOTO reiniciar
@@ -29,13 +28,15 @@ IF ERRORLEVEL 7 GOTO control
 IF ERRORLEVEL 6 GOTO browser
 IF ERRORLEVEL 5 GOTO aplicaciones_din
 IF ERRORLEVEL 4 GOTO aplicaciones
-IF ERRORLEVEL 3 GOTO first_admintools
+IF ERRORLEVEL 3 GOTO herramientas
 IF ERRORLEVEL 2 GOTO directorios
-IF ERRORLEVEL 1 GOTO options
+IF ERRORLEVEL 1 GOTO opciones
 
-:options
+:opciones
 CLS
 ECHO %TIME% - %DATE%
+ECHO.
+ECHO 1 - Modulos/Scripts
 ECHO.
 ECHO Q - Iniciar powershell
 ECHO W - Copiar informacion del sistema
@@ -51,43 +52,140 @@ ECHO Z - Herramientas de Diagnostico y Reparacion
 ECHO.
 ECHO B - Volver
 ECHO.
+CHOICE /N /C:1QWERASDFZB /M "->"
+IF ERRORLEVEL 11 GOTO menu
+IF ERRORLEVEL 10 GOTO repair_menu
+IF ERRORLEVEL 9 GOTO batteryrem
+IF ERRORLEVEL 8 GOTO networkstatus
+IF ERRORLEVEL 7 GOTO shellc
+IF ERRORLEVEL 6 GOTO systempropertiesadvanced
+IF ERRORLEVEL 5 GOTO tslist
+IF ERRORLEVEL 4 GOTO peripheral
+IF ERRORLEVEL 3 GOTO sysinfo
+IF ERRORLEVEL 2 GOTO powershell
+IF ERRORLEVEL 1 GOTO modulos
 
-CHOICE /N /C:QWERASDFZB /M "->"
-IF ERRORLEVEL 10 GOTO menu
-IF ERRORLEVEL 9 GOTO repair_menu
-IF ERRORLEVEL 8 GOTO batteryrem
-IF ERRORLEVEL 7 GOTO networkstatus
-IF ERRORLEVEL 6 GOTO shellc
-IF ERRORLEVEL 5 GOTO systempropertiesadvanced
-IF ERRORLEVEL 4 GOTO tslist
-IF ERRORLEVEL 3 GOTO peripheral
-IF ERRORLEVEL 2 GOTO sysinfo
-IF ERRORLEVEL 1 GOTO powershell
+:modulos
+IF NOT EXIST "%~dp0data\data_scripts_din.bat" (
+ECHO @ECHO OFF
+ECHO SET "SQN=Indefinda"
+ECHO SET "SQP=%~dp0scripts\"
+ECHO SET "SWN=Indefinda"
+ECHO SET "SWP=%~dp0scripts\"
+ECHO SET "SEN=Indefinda"
+ECHO SET "SEP=%~dp0scripts\"
+ECHO SET "SRN=Indefinda"
+ECHO SET "SRP=%~dp0scripts\"
+ECHO SET "SAN=Indefinda"
+ECHO SET "SAP=%~dp0scripts\"
+ECHO SET "SSN=Indefinda"
+ECHO SET "SSP=%~dp0scripts\"
+ECHO SET "SDN=Indefinda"
+ECHO SET "SDP=%~dp0scripts\"
+ECHO SET "SFN=Indefinda"
+ECHO SET "SFP=%~dp0scripts\"
+ECHO SET "SZN=Indefinda"
+ECHO SET "SZP=%~dp0scripts\"
+ECHO SET "SXN=Indefinda"
+ECHO SET "SXP=%~dp0scripts\"
+ECHO SET "SCN=Indefinda"
+ECHO SET "SCP=%~dp0scripts\"
+ECHO SET "SVN=Indefinda"
+ECHO SET "SVP=%~dp0scripts\"
+) > %~dp0data\data_scripts_din.bat
+CALL %~dp0data\data_scripts_din.bat
+CLS
+ECHO %TIME% - %DATE%
+ECHO.
+ECHO 1 - Editar
+ECHO.
+ECHO Q - %SQN%
+ECHO W - %SWN%
+ECHO E - %SEN%
+ECHO R - %SRN%
+ECHO.
+ECHO A - %SAN%
+ECHO S - %SSN%
+ECHO D - %SDN%
+ECHO F - %SFN%
+ECHO.
+ECHO Z - %SZN%
+ECHO X - %SXN%
+ECHO C - %SCN%
+ECHO V - %SVN%
+ECHO.
+ECHO B - Volver
+ECHO.
+CHOICE /N /C:1QWERASDFZXCVB /M "->"
+IF ERRORLEVEL 14 GOTO menu
+IF ERRORLEVEL 13 GOTO script_din_v
+IF ERRORLEVEL 12 GOTO script_din_c
+IF ERRORLEVEL 11 GOTO script_din_x
+IF ERRORLEVEL 10 GOTO script_din_z
+IF ERRORLEVEL 9 GOTO script_din_f
+IF ERRORLEVEL 8 GOTO script_din_d
+IF ERRORLEVEL 7 GOTO script_din_s
+IF ERRORLEVEL 6 GOTO script_din_a
+IF ERRORLEVEL 5 GOTO script_din_r
+IF ERRORLEVEL 4 GOTO script_din_e
+IF ERRORLEVEL 3 GOTO script_din_W
+IF ERRORLEVEL 2 GOTO script_din_q
+IF ERRORLEVEL 1 START "" "%WINDIR%\notepad.exe" %~dp0data\data_scripts_din.bat & GOTO menu
+
+:script_din_q
+START "" "%SQP%"
+GOTO menu
+
+:script_din_w
+START "" "%SWP%"
+GOTO menu
+
+:script_din_e
+START "" "%SEP%"
+GOTO menu
+
+:script_din_r
+START "" "%SRP%"
+GOTO menu
+
+:script_din_a
+START "" "%SAP%"
+GOTO menu
+
+:script_din_s
+START "" "%SSP%"
+GOTO menu
+
+:script_din_d
+START "" "%SDP%"
+GOTO menu
+
+:script_din_f
+START "" "%SFP%"
+GOTO menu
+
+:script_din_z
+START "" "%SZP%"
+GOTO menu
+
+:script_din_x
+START "" "%SXP%"
+GOTO menu
+
+:script_din_c
+START "" "%SCP%"
+GOTO menu
+
+:script_din_v
+START "" "%SVP%"
+GOTO menu
 
 :powershell
 START "" "%WINDIR%\System32\WindowsPowerShell\v1.0\powershell.exe"
 GOTO menu
 
 :sysinfo
-mkdir C:\Users\%USERNAME%\Downloads\%COMPUTERNAME%
-wmic baseboard list /format:list > C:\Users\%USERNAME%\Downloads\%COMPUTERNAME%\baseboard.txt
-wmic computersystem list /format:list > C:\Users\%USERNAME%\Downloads\%COMPUTERNAME%\computersystem.txt
-wmic useraccount list /format:list > C:\Users\%USERNAME%\Downloads\%COMPUTERNAME%\useraccount.txt
-wmic cpu list full /format:list > C:\Users\%USERNAME%\Downloads\%COMPUTERNAME%\cpu.txt
-wmic bios list /format:list > C:\Users\%USERNAME%\Downloads\%COMPUTERNAME%\bios.txt
-wmic diskdrive list /format:list > C:\Users\%USERNAME%\Downloads\%COMPUTERNAME%\diskdrive.txt
-wmic sysdriver get /format:list > C:\Users\%USERNAME%\Downloads\%COMPUTERNAME%\sysdriver.txt
-wmic startup get caption, command > C:\Users\%USERNAME%\Downloads\%COMPUTERNAME%\startup_apps.txt
-wmic product get name, version > C:\Users\%USERNAME%\Downloads\%COMPUTERNAME%\installed_apps.txt
-net start > C:\Users\%USERNAME%\Downloads\%COMPUTERNAME%\startup_services.txt
-schtasks > C:\Users\%USERNAME%\Downloads\%COMPUTERNAME%\tasks.txt
-systeminfo > C:\Users\%USERNAME%\Downloads\%COMPUTERNAME%\systeminfo.txt
-ipconfig /all > C:\Users\%USERNAME%\Downloads\%COMPUTERNAME%\ipconfig.txt
-msinfo32 /nfo C:\Users\%USERNAME%\Downloads\%COMPUTERNAME%\msinfo32.nfo /categories +systemsummary
-CHOICE /M "Desea copiar el directorio a una unidad extraible? "
-IF ERRORLEVEL 2 GOTO menu
-IF ERRORLEVEL 1 SET /p id="Letra de volumen: "
-Xcopy /E /I C:\Users\%USERNAME%\Downloads\%COMPUTERNAME% %id%:\%COMPUTERNAME%
+START "" "%~dp0modulos\modulo_sysinfo.bat"
 GOTO menu
 
 :peripheral
@@ -141,57 +239,8 @@ START "" "%WINDIR%\System32\SystemPropertiesAdvanced.exe"
 GOTO menu
 
 :shellc
-CLS
-ECHO.
-CHOICE /N /C:JEC /M "Que Shell desea utilizar J - JWST, E - EXPLORER o C - CANCELAR? "
-IF ERRORLEVEL 3 GOTO menu
-IF ERRORLEVEL 2 GOTO explorershell
-IF ERRORLEVEL 1 GOTO jwstshell
-
-:jwstshell
-CLS
-ECHO.
-CHOICE /M "Esta seguro que desea cambiar el Shell a JWST? "
-IF ERRORLEVEL 2 GOTO menu
-IF ERRORLEVEL 1 GOTO shellchangejwst
-
-:explorershell
-CLS
-ECHO.
-CHOICE /M "Esta seguro que desea cambiar el Shell a Explorer? "
-IF ERRORLEVEL 2 GOTO menu
-IF ERRORLEVEL 1 GOTO shellchangeexplorer
-
-:shellchangejwst
-IF NOT EXIST "C:\Users\%USERNAME%\AppData\Roaming\shell_change_jwst.bat" (
-ECHO @ECHO OFF
-ECHO REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /t REG_SZ /v Shell /d "jwst.bat" /f
-) > C:\Users\%USERNAME%\AppData\Roaming\shell_change_jwst.bat
-CLS
-SET /p id="Nombre de la cuenta de Administrador: "
-CLS
-runas.exe /savecred /profile /user:%id% "C:\Users\%USERNAME%\AppData\Roaming\shell_change_jwst.bat"
-ECHO.
-CHOICE /M "Desea Reiniciar ahora para que los cambios tomen efecto? "
-IF ERRORLEVEL 2 GOTO menu
-IF ERRORLEVEL 1 shutdown /r /t 00
-EXIT
-
-:shellchangeexplorer
-IF NOT EXIST "C:\Users\%USERNAME%\AppData\Roaming\shell_change_explorer.bat" (
-ECHO @ECHO OFF
-ECHO REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /t REG_SZ /v Shell /d "explorer.exe" /f
-) > C:\Users\%USERNAME%\AppData\Roaming\shell_change_explorer.bat
-CLS
-SET /p id="Nombre de la cuenta de Administrador: "
-CLS
-runas.exe /savecred /profile /user:%id% "C:\Users\%USERNAME%\AppData\Roaming\shell_change_explorer.bat"
-CLS
-ECHO.
-CHOICE /M "Desea Reiniciar ahora para que los cambios tomen efecto? "
-IF ERRORLEVEL 2 GOTO menu
-IF ERRORLEVEL 1 shutdown /r /t 00
-EXIT
+START "" "%~dp0modulos\modulo_shell.bat"
+GOTO menu
 
 :networkstatus
 CLS
@@ -227,7 +276,7 @@ ECHO B - Volver
 ECHO.
 
 CHOICE /N /C:QWEB /M "->"
-IF ERRORLEVEL 4 GOTO options
+IF ERRORLEVEL 4 GOTO opciones
 IF ERRORLEVEL 3 GOTO chkdsk
 IF ERRORLEVEL 2 GOTO mdsched
 IF ERRORLEVEL 1 GOTO sfc_scannow
@@ -241,7 +290,6 @@ ECHO W - Ver los registros de SFC
 ECHO.
 ECHO B - Volver
 ECHO.
-
 CHOICE /N /C:QWB /M "->"
 IF ERRORLEVEL 3 GOTO repair_menu
 IF ERRORLEVEL 2 GOTO sfc_logs
@@ -268,7 +316,6 @@ ECHO W - Ver los registros de mdsched
 ECHO.
 ECHO B - Volver
 ECHO.
-
 CHOICE /N /C:QWB /M "->"
 IF ERRORLEVEL 3 GOTO repair_menu
 IF ERRORLEVEL 2 GOTO mdsched_logs
@@ -292,7 +339,6 @@ ECHO W - Ver los registros de chkdsk
 ECHO.
 ECHO B - Volver
 ECHO.
-
 CHOICE /N /C:QWB /M "->"
 IF ERRORLEVEL 3 GOTO repair_menu
 IF ERRORLEVEL 2 GOTO chkdsk_logs
@@ -327,7 +373,6 @@ ECHO F - Escritorio
 ECHO.
 ECHO B - Volver
 ECHO.
-
 CHOICE /N /C:QWERASDFB /M "->"
 IF ERRORLEVEL 9 GOTO menu
 IF ERRORLEVEL 8 GOTO desktop
@@ -371,7 +416,7 @@ GOTO menu
 START "" "C:\Users\%USERNAME%\Desktop"
 GOTO menu
 
-:first_admintools
+:herramientas
 CLS
 ECHO %TIME% - %DATE%
 ECHO.
@@ -393,7 +438,6 @@ ECHO.
 ECHO B - Volver
 ECHO N - Siguiente
 ECHO.
-
 CHOICE /N /C:QWERASDFZXCVBN /M "->"
 IF ERRORLEVEL 14 GOTO second_admintools
 IF ERRORLEVEL 13 GOTO menu
@@ -480,10 +524,9 @@ ECHO.
 ECHO B - Volver
 ECHO M - Menu principal
 ECHO.
-
 CHOICE /N /C:QWERASDFZXCVBM /M "->"
 IF ERRORLEVEL 14 GOTO menu
-IF ERRORLEVEL 13 GOTO first_admintools
+IF ERRORLEVEL 13 GOTO herramientas
 IF ERRORLEVEL 12 GOTO mstsc
 IF ERRORLEVEL 11 GOTO mmsys
 IF ERRORLEVEL 10 GOTO lusrmgr
@@ -558,7 +601,6 @@ ECHO A - Teclado en pantalla
 ECHO.
 ECHO B - Volver
 ECHO.
-
 CHOICE /N /C:QWERAB /M "->"
 IF ERRORLEVEL 6 GOTO menu
 IF ERRORLEVEL 5 GOTO osk
@@ -568,7 +610,7 @@ IF ERRORLEVEL 2 GOTO notepad
 IF ERRORLEVEL 1 GOTO calc
 
 :calc
-START "" "%WINDIR%\System32\calc.exe"
+START "" "https://www.google.com/search?q=calc"
 GOTO menu
 
 :notepad
@@ -588,11 +630,11 @@ START "" "%WINDIR%\System32\osk.exe"
 GOTO menu
 
 :browser
-START www.google.com
+START "" "www.google.com"
 GOTO menu
 
 :aplicaciones_din
-IF NOT EXIST "C:\Users\%USERNAME%\AppData\Roaming\jwst_aplicaciones_din.bat" (
+IF NOT EXIST "%~dp0data\data_aplicaciones_din.bat" (
 ECHO @ECHO OFF
 ECHO SET "QN=Indefinda"
 ECHO SET "QP=C:\"
@@ -738,8 +780,8 @@ ECHO SET "C6N=Indefinda"
 ECHO SET "C6P=C:\"
 ECHO SET "V6N=Indefinda"
 ECHO SET "V6P=C:\
-) > C:\Users\%USERNAME%\AppData\Roaming\jwst_aplicaciones_din.bat
-CALL C:\Users\%USERNAME%\AppData\Roaming\jwst_aplicaciones_din.bat
+) > %~dp0data\data_aplicaciones_din.bat
+CALL %~dp0data\data_aplicaciones_din.bat
 CLS
 ECHO %TIME% - %DATE%
 ECHO.
@@ -763,7 +805,6 @@ ECHO.
 ECHO B - Volver
 ECHO N - Siguiente
 ECHO.
-
 CHOICE /N /C:1QWERASDFZXCVBN /M "->"
 IF ERRORLEVEL 15 GOTO aplicaciones_din_2
 IF ERRORLEVEL 14 GOTO menu
@@ -782,7 +823,7 @@ IF ERRORLEVEL 2 GOTO app_din_q
 IF ERRORLEVEL 1 GOTO editbat
 
 :editbat
-START "" "%WINDIR%\notepad.exe" C:\Users\%USERNAME%\AppData\Roaming\jwst_aplicaciones_din.bat
+START "" "%WINDIR%\notepad.exe" %~dp0data\data_aplicaciones_din.bat
 GOTO menu
 
 :app_din_q
@@ -858,7 +899,6 @@ ECHO B - Volver
 ECHO N - Siguiente
 ECHO M - Menu principal
 ECHO.
-
 CHOICE /N /C:1QWERASDFZXCVBNM /M "->"
 IF ERRORLEVEL 16 GOTO menu
 IF ERRORLEVEL 15 GOTO aplicaciones_din_3
@@ -950,7 +990,6 @@ ECHO B - Volver
 ECHO N - Siguiente
 ECHO M - Menu principal
 ECHO.
-
 CHOICE /N /C:1QWERASDFZXCVBNM /M "->"
 IF ERRORLEVEL 16 GOTO menu
 IF ERRORLEVEL 15 GOTO aplicaciones_din_4
@@ -1042,7 +1081,6 @@ ECHO B - Volver
 ECHO N - Siguiente
 ECHO M - Menu principal
 ECHO.
-
 CHOICE /N /C:1QWERASDFZXCVBNM /M "->"
 IF ERRORLEVEL 16 GOTO menu
 IF ERRORLEVEL 15 GOTO aplicaciones_din_5
@@ -1134,7 +1172,6 @@ ECHO B - Volver
 ECHO N - Siguiente
 ECHO M - Menu principal
 ECHO.
-
 CHOICE /N /C:1QWERASDFZXCVBNM /M "->"
 IF ERRORLEVEL 16 GOTO menu
 IF ERRORLEVEL 15 GOTO aplicaciones_din_6
@@ -1225,7 +1262,6 @@ ECHO.
 ECHO B - Volver
 ECHO M - Menu principal
 ECHO.
-
 CHOICE /N /C:1QWERASDFZXCVBM /M "->"
 IF ERRORLEVEL 15 GOTO menu
 IF ERRORLEVEL 14 GOTO aplicaciones_din_5
