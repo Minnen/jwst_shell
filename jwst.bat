@@ -193,46 +193,8 @@ control printers
 GOTO menu
 
 :tslist
-CLS 
-TASKLIST
-ECHO.
-CHOICE /M "Desea detener una tarea? "
-ECHO.
-IF ERRORLEVEL 2 GOTO menu
-IF ERRORLEVEL 1 SET /p PID="PID de la tarea: "
-CLS
-TASKLIST /v /fi "PID eq %PID%" /FO LIST
-ECHO.
-CHOICE /M "Esta es la tarea que desea terminar? "
-IF ERRORLEVEL 2 GOTO tslist
-IF ERRORLEVEL 1 GOTO secfor
-
-:secfor
-ECHO.
-CHOICE /N /C:SFC /M "De que manera S - SIMPLE F - FORZADO o C - CANCELAR? "
-IF ERRORLEVEL 3 GOTO tslist
-IF ERRORLEVEL 2 GOTO tkillf
-IF ERRORLEVEL 1 GOTO tkills
-
-:tkills
-ECHO.
-ECHO "Terminando tarea de manera simple... "
-ECHO.
-TASKKILL /PID %PID% /T
-ECHO.
-CHOICE /M "Desea terminar otra tarea? "
-IF ERRORLEVEL 2 GOTO menu
-IF ERRORLEVEL 1 GOTO tslist
-
-:tkillf
-ECHO.
-ECHO "Terminando tarea de manera forzada... "
-ECHO.
-TASKKILL /F /PID %PID% /T
-ECHO.
-CHOICE /M "Desea terminar otra tarea?"
-IF ERRORLEVEL 2 GOTO menu
-IF ERRORLEVEL 1 GOTO tslist
+START "" "%~dp0modulos\modulo_taskmanager.bat"
+GOTO menu
 
 :systempropertiesadvanced
 START "" "%WINDIR%\System32\SystemPropertiesAdvanced.exe"
@@ -265,97 +227,8 @@ PAUSE
 GOTO menu
 
 :repair_menu
-CLS
-ECHO %TIME% - %DATE%
-ECHO.
-ECHO Q - sfc scannow
-ECHO W - mdsched
-ECHO E - chkdsk
-ECHO.
-ECHO B - Volver
-ECHO.
-
-CHOICE /N /C:QWEB /M "->"
-IF ERRORLEVEL 4 GOTO opciones
-IF ERRORLEVEL 3 GOTO chkdsk
-IF ERRORLEVEL 2 GOTO mdsched
-IF ERRORLEVEL 1 GOTO sfc_scannow
-
-:sfc_scannow
-CLS
-ECHO %TIME% - %DATE%
-ECHO.
-ECHO Q - Ejecutar el Comprobador de archivos de sistema
-ECHO W - Ver los registros de SFC
-ECHO.
-ECHO B - Volver
-ECHO.
-CHOICE /N /C:QWB /M "->"
-IF ERRORLEVEL 3 GOTO repair_menu
-IF ERRORLEVEL 2 GOTO sfc_logs
-IF ERRORLEVEL 1 GOTO run_sfc_scannow
-
-:run_sfc_scannow
-CLS
-sfc /scannow
-ECHO.
-CHOICE /N /C:BQ /M "B - VOLVER AL MENU DE REPARACION Q - VER LOS REGISTROS DE SFC? "
-IF ERRORLEVEL 2 GOTO sfc_logs
-IF ERRORLEVEL 1 GOTO repair_menu
-
-:sfc_logs
-START "" "%WINDIR%\Logs\CBS\"
-GOTO repair_menu
-
-:mdsched
-CLS
-ECHO %TIME% - %DATE%
-ECHO.
-ECHO Q - Ejecutar la Herramienta de diagnostico de memoria
-ECHO W - Ver los registros de mdsched
-ECHO.
-ECHO B - Volver
-ECHO.
-CHOICE /N /C:QWB /M "->"
-IF ERRORLEVEL 3 GOTO repair_menu
-IF ERRORLEVEL 2 GOTO mdsched_logs
-IF ERRORLEVEL 1 GOTO run_mdsched
-
-:run_mdsched
-mdsched.exe
-GOTO repair_menu
-
-:mdsched_logs
-powershell "& ""C:\Users\%USERNAME%\AppData\Roaming\mdsched_results.ps1"""
-START "" "C:\Users\%USERNAME%\Downloads\Windows_Memory_Diagnostics_Results.txt"
-GOTO repair_menu
-
-:chkdsk
-CLS
-ECHO %TIME% - %DATE%
-ECHO.
-ECHO Q - Ejecutar la Comprobacion de errores de disco
-ECHO W - Ver los registros de chkdsk
-ECHO.
-ECHO B - Volver
-ECHO.
-CHOICE /N /C:QWB /M "->"
-IF ERRORLEVEL 3 GOTO repair_menu
-IF ERRORLEVEL 2 GOTO chkdsk_logs
-IF ERRORLEVEL 1 GOTO run_chkdsk
-
-:run_chkdsk
-CLS
-chkdsk /F
-ECHO.
-CHOICE /N /C:B9 /M "B - VOLVER AL MENU DE REPARACION 9 - REINICIAR EL EQUIPO AHORA? "
-IF ERRORLEVEL 2 shutdown /r /t 00
-IF ERRORLEVEL 1 GOTO repair_menu
-
-:chkdsk_logs
-powershell "& ""C:\Users\%USERNAME%\AppData\Roaming\chkdsk_results.ps1"""
-START "" "C:\Users\%USERNAME%\Downloads\Disk_Check_Results.txt"
-GOTO repair_menu
+START "" "%~dp0modulos\modulo_repairmenu.bat"
+GOTO menu
 
 :directorios
 CLS

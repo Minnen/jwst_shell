@@ -24,7 +24,7 @@ ECHO.
 ECHO C - Cancelar
 ECHO.
 CHOICE /N /C:QWC /M "->"
-IF ERRORLEVEL 3 GOTO final
+IF ERRORLEVEL 3 GOTO salir
 IF ERRORLEVEL 2 SET "CHOICE=W" & GOTO inicio
 IF ERRORLEVEL 1 SET "CHOICE=Q" & GOTO inicio
 
@@ -62,20 +62,20 @@ GOTO exito
 ECHO.
 ECHO [+] Informacion recolectada correctamente.
 CHOICE /N /C:SN /M "[?] Copiar a unidad extraible? -> (S/N)"
-IF ERRORLEVEL 2 GOTO final
+IF ERRORLEVEL 2 GOTO salir
 IF ERRORLEVEL 1 (
     SET /P "DRV=Letra de unidad (ej. E) ->"
     IF EXIST "%DRV%:\" (
         XCOPY "%OUT%" "%DRV%:\%COMPUTERNAME%\" /E /I /H /Y >NUL
         ECHO [+] Copiado a %DRV%:\%COMPUTERNAME%
-        GOTO final
+        GOTO salir
     ) ELSE (
         ECHO [!] Unidad %DRV%: no encontrada.
-        GOTO final
+        GOTO salir
     )
 )
 
-:final
+:salir
 ECHO.
 ECHO Presiona cualquier tecla para cerrar... (Cierre automatico en 3s)
 TIMEOUT /T 3 >NUL

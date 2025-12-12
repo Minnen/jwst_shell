@@ -18,26 +18,27 @@ ECHO.
 ECHO J - JWST
 ECHO E - Explorer (Windows normal)
 ECHO.
-ECHO C - Cancelar
+ECHO S - Salir
 ECHO.
-CHOICE /N /C:JEC /M "->"
+CHOICE /N /C:JES /M "->"
 IF ERRORLEVEL 3 GOTO salir
 IF ERRORLEVEL 2 GOTO explorer
 IF ERRORLEVEL 1 GOTO jwst
 
 :jwst
-REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /V Shell /T REG_SZ /D "%~dp0jwst.bat" /F >NUL
+FOR %%I IN ("%~dp0..") DO SET "JWST_ROOT=%%~fI"
+REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /V Shell /T REG_SZ /D "%JWST_ROOT%\jwst.bat" /F >NUL
 ECHO.
 ECHO Shell cambiado a JWST
-GOTO fin
+GOTO reinicio
 
 :explorer
 REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /V Shell /T REG_SZ /D "explorer.exe" /F >NUL
 ECHO.
 ECHO Shell cambiado a Explorer (Windows normal)
-GOTO fin
+GOTO reinicio
 
-:fin
+:reinicio
 ECHO.
 CHOICE /N /C:SN /M "Reiniciar ahora para aplicar? -> (S/N)"
 IF ERRORLEVEL 2 GOTO salir

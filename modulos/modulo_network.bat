@@ -96,6 +96,6 @@ EXIT
 
 :salir
 ECHO.
-ECHO Saliendo del modulo Wi-Fi...
-TIMEOUT /T 2 >NUL
+ECHO Presiona cualquier tecla para cerrar... (Cierre automatico en 3s)
+TIMEOUT /T 3 >NUL
 EXIT
